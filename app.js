@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./src/router/index');
@@ -10,6 +11,11 @@ app.set('port', 8888);
 
 app.use(logger('dev'));
 app.use(cookieParser());
+app.use(session({
+resave: true, // don't save session if unmodified
+saveUninitialized: false, // don't create session until something stored
+secret: 'secret'
+}));
 app.use(bodyParser.urlencoded({
     extended: false
 }));

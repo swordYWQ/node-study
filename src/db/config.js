@@ -6,5 +6,11 @@ module.exports = {
         password: 'ywq941103',
         database: 'simplebase',
         maxConnLimit: 10
+    },
+    redisConfig: {
+        RDS_PORT: 6379,
+        RDS_HOST: '121.0.0.1',
+        // RDS_PWD: 'porschev',
+        RDS_OPTS: {},
     }
 }

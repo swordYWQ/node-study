@@ -15,30 +15,36 @@ const loginIn = (req, res) => {
                             username: param.userName,
                             password: param.password
                         };
+                        console.log(req.sessionID)
                         req.session.user = user;
-                        log.info("用户:" + param.userName + " 密码:" + param.password + "登录IP:" + req._remoteAddress + " 登陆成功!")
+
+                        console.log(req.sessionID)
+                        console.log(req.session.user)
+                        log.info("登录IP:" + req._remoteAddress + " 登陆成功!")
                         res.end(resDataUtil.success({
                             userName: param.userName
                         }));
                     } else {
-                        log.warn("用户:" + param.userName + " 密码:" + param.password + "登录IP:" + req._remoteAddress + "用户名或密码错误!")
+                        log.warn("登录IP:" + req._remoteAddress + "用户名或密码错误!")
                         res.end(resDataUtil.error([], ' 用户名或密码错误!'));
                     }
                 }
 
             } else {
-                log.warn("用户:" + param.userName + " 密码:" + param.password + "登录IP:" + req._remoteAddress + " 用户名不存在!")
+                log.warn("登录IP:" + req._remoteAddress + " 用户名不存在!")
                 res.end(resDataUtil.error([], '用户名不存在!'));
             }
         })
-    }
-    else{
-        log.warn("用户:" + param.userName + " 密码:" + param.password + "登录IP:" + req._remoteAddress + " 参数错误!")
-                res.end(resDataUtil.error([], '参数错误!'));
+    } else {
+        log.warn("登录IP:" + req._remoteAddress + " 参数错误!")
+        res.end(resDataUtil.error([], '参数错误!'));
     }
 }
 
 const loginOut = (req, res) => {
+    console.log(req.sessionID)
+    console.log(req.session.user)
+
     req.session.user = null;
     res.end(resDataUtil.success("success"));
 }

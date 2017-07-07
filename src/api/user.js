@@ -1,25 +1,24 @@
 var dbConnection = require('../db/index')
 var log = require('../util/log')
 var resDataUtil = require('../util/resDataUtil')
-
+/**
+ * 登录
+ * @param {*} req 
+ * @param {*} res 
+ */
 const loginIn = (req, res) => {
     var param = req.query;
     if (param.userName && param.password) {
-        var sql = "select * from simplebase.user where userName='" + param.userName + "'"
+        var sql = "select * from simplebase.user where username='" + param.userName + "'"
         dbConnection.mysqlDB.execQuery(sql, (result) => {
             if (result.length > 0) {
                 for (var i = 0; i < result.length; i++) {
-                    if (param.userName == result[i].userName && param.password == result[i].password) {
-
+                    if (param.userName == result[i].username && param.password == result[i].password) {
                         var user = {
                             username: param.userName,
                             password: param.password
                         };
-                        console.log(req.sessionID)
                         req.session.user = user;
-
-                        console.log(req.sessionID)
-                        console.log(req.session.user)
                         log.info("登录IP:" + req._remoteAddress + " 登陆成功!")
                         res.end(resDataUtil.success({
                             userName: param.userName
@@ -29,7 +28,6 @@ const loginIn = (req, res) => {
                         res.end(resDataUtil.error([], ' 用户名或密码错误!'));
                     }
                 }
-
             } else {
                 log.warn("登录IP:" + req._remoteAddress + " 用户名不存在!")
                 res.end(resDataUtil.error([], '用户名不存在!'));
@@ -41,11 +39,13 @@ const loginIn = (req, res) => {
     }
 }
 
+/**
+ * 登出
+ * @param {*} req 
+ * @param {*} res 
+ */
 const loginOut = (req, res) => {
-    console.log(req.sessionID)
-    console.log(req.session.user)
-
-    req.session.user = null;
+    // req.session.user = null;
     res.end(resDataUtil.success("success"));
 }
 

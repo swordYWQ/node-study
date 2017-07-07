@@ -17,21 +17,21 @@ app.use(session({
     resave: true, // don't save session if unmodified
     saveUninitialized: true, // don't create session until something stored
     secret: 'secret',
-    // store: new redisStore(redisConfig),
-    cookie: {
-        maxAge: 30 * 1000 // 有效期，单位是毫秒
-    }
+    store: new redisStore(redisConfig),
+    // cookie: {
+    //     maxAge: 30 * 1000 // 有效期，单位是毫秒
+    // }
 }));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(function (req, res, next) {
-    if (req.session) {
-        next();
-    } else {
-        return next(new Error('session已过期!')) // handle error
-    }
-})
+// app.use(function (req, res, next) {
+//     if (req.session) {
+//         next();
+//     } else {
+//         return next(new Error('session已过期!')) // handle error
+//     }
+// })
 app.use(express.static(path.join(__dirname, 'public')));
 
 routes(app)
